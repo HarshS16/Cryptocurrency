@@ -92,6 +92,7 @@ def load_data():
     df['percent_change_7d'] = percent_change_7d
     df['market_cap'] = market_cap
     df['volume_24h'] = volume_24h
+    
     return df
 
 df = load_data()
@@ -120,6 +121,7 @@ col2.write('Data Dimension: ' + str(df_selected_coin.shape[0]) + ' rows and ' + 
 
 col2.dataframe(df_coins)
 
+
 # Download CSV data
 # https://discuss.streamlit.io/t/how-to-download-file-in-streamlit/1806
 def filedownload(df):
@@ -133,11 +135,17 @@ col2.markdown(filedownload(df_selected_coin), unsafe_allow_html=True)
 #---------------------------------#
 # Preparing data for Bar plot of % Price change
 col2.subheader('Table of % Price Change')
+
 df_change = pd.concat([df_coins.coin_symbol, df_coins.percent_change_1h, df_coins.percent_change_24h, df_coins.percent_change_7d], axis=1)
+
 df_change = df_change.set_index('coin_symbol')
+
 df_change['positive_percent_change_1h'] = df_change['percent_change_1h'] > 0
+
 df_change['positive_percent_change_24h'] = df_change['percent_change_24h'] > 0
+
 df_change['positive_percent_change_7d'] = df_change['percent_change_7d'] > 0
+
 col2.dataframe(df_change)
 
 # Conditional creation of Bar plot (time frame)
